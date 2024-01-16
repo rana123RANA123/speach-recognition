@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Speech Recognition Example</title>
+</head>
+
+<style>
+    #startButton,#stopButton{
+        color: red;
+        padding: 30px;
+        border: 2px solid blue;
+        border-radius: 30px;
+        font-size: 25px;
+        margin: 10px;
+        background-color: rgb(212, 216, 215);
+        
+    }
+    #startButton:hover,#stopButton:hover{
+        background-color: rgb(154, 158, 157);
+        cursor: pointer;
+    }
+    
+    #container{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-top: 300px;
+    }
+</style>
+
+<body>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
+  
+  recognition.lang = 'en-US'; // Set the language to English
+
+  // Specify the target word
+  const targetWord = "14";
+
+  recognition.onresult = function (event) {
+    const transcript = event.results[0][0].transcript;
+    console.log('You said:', transcript);
+
+    // Check if the target word is present in the sentence
+    if (transcript.toLowerCase().includes(targetWord.toLowerCase())) {
+      // Trigger an alarm (you can replace this with your own logic)
+      console.log('Target word "' + targetWord + '" detected in the sentence!');
+      console.log("MR.LAZY_DEV")
+
+      // You can also play an alarm sound using the Audio API
+      const audio = new Audio('./assets/1.mp3');
+      audio.play();
+    }
+  };
+
+  recognition.onerror = function (event) {
+    console.error('Speech recognition error:', event.error);
+  };
+
+  document.getElementById('startButton').addEventListener('click', function () {
+    recognition.start();
+    console.log('Speech recognition started');
+  });
+
+  document.getElementById('stopButton').addEventListener('click', function () {
+    recognition.stop();
+    console.log('Speech recognition stopped');
+  });
+});
+</script>
+<div id="container">
+    <button id="startButton">Start Speech Recognition</button>
+    <button id="stopButton">Stop Speech Recognition</button>
+</div>
+
+</body>
+</html>
